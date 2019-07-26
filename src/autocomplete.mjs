@@ -49,10 +49,10 @@ export default class extends Controller {
   select(target) {
     for (const el of this.resultsTarget.querySelectorAll('[aria-selected="true"]')) {
       el.removeAttribute('aria-selected')
-      el.classList.remove('active')
+      el.classList.remove(...this.activeClassList)
     }
     target.setAttribute('aria-selected', 'true')
-    target.classList.add('active')
+    target.classList.add(...this.activeClassList)
     this.inputTarget.setAttribute('aria-activedescendant', target.id)
   }
 
@@ -119,7 +119,8 @@ export default class extends Controller {
 
     const textValue = selected.textContent.trim()
     const value = selected.getAttribute('data-autocomplete-value') || textValue
-    this.inputTarget.value = textValue
+
+    this.onSelect(selected, textValue, value)
 
     if ( this.hasHiddenTarget ) {
       this.hiddenTarget.value = value
@@ -134,6 +135,10 @@ export default class extends Controller {
 
     this.inputTarget.focus()
     this.hideAndRemoveOptions()
+  }
+
+  onSelect(selected, textValue, value) {
+    this.inputTarget.value = selected.textContent.trim()
   }
 
   onResultsClick(event) {
@@ -175,13 +180,13 @@ export default class extends Controller {
 
     const url = new URL(this.src, window.location.href)
     const params = new URLSearchParams(url.search.slice(1))
-    params.append('q', query)
+    params.append(this.queryParam, query)
     url.search = params.toString()
 
     this.element.dispatchEvent(new CustomEvent('loadstart'))
 
     fetch(url.toString())
-      .then(response => response.text())
+      .then(response => this.handleAutocompleteResponse(response))
       .then(html => {
         this.resultsTarget.innerHTML = html
         this.identifyOptions()
@@ -194,6 +199,10 @@ export default class extends Controller {
         this.element.dispatchEvent(new CustomEvent('error'))
         this.element.dispatchEvent(new CustomEvent('loadend'))
       })
+  }
+
+  handleAutocompleteResponse(response) {
+    return response.text()
   }
 
   open() {
@@ -209,6 +218,15 @@ export default class extends Controller {
     this.inputTarget.removeAttribute('aria-activedescendant')
     this.element.setAttribute('aria-expanded', 'false')
     this.element.dispatchEvent(new CustomEvent('toggle', {detail: {input: this.input, results: this.results}}))
+  }
+
+  get activeClassList() {
+    const classString = this.data.has('active-class') ? this.data.get('active-class') : 'active';
+    return classString.split(' ').map(s => s.trim()).filter(s => s != null && s != "")
+  }
+
+  get queryParam() {
+    return this.data.has('query') ? this.data.get('query') : 'q'
   }
 
   get src() {
