@@ -25,6 +25,7 @@ export default class extends Controller {
     this.inputTarget.addEventListener('blur', this.onInputBlur)
     this.inputTarget.addEventListener('input', this.onInputChange)
     this.resultsTarget.addEventListener('mousedown', this.onResultsMouseDown)
+    this.resultsTarget.addEventListener('mouseover', this.onResultsMouseOver)
     this.resultsTarget.addEventListener('click', this.onResultsClick)
   }
 
@@ -34,6 +35,7 @@ export default class extends Controller {
     this.inputTarget.removeEventListener('blur', this.onInputBlur)
     this.inputTarget.removeEventListener('input', this.onInputChange)
     this.resultsTarget.removeEventListener('mousedown', this.onResultsMouseDown)
+    this.resultsTarget.removeEventListener('mouseover', this.onResultsMouseOver)
     this.resultsTarget.removeEventListener('click', this.onResultsClick)
   }
 
@@ -147,6 +149,13 @@ export default class extends Controller {
     const selected = event.target.closest('[role="option"]')
     if (selected) this.commit(selected)
   }
+
+  onResultsMouseOver(event) {
+    if (!(event.target instanceof Element)) return
+    const selected = event.target.closest('[role="option"]')
+    if (selected) this.select(selected)
+  }
+
 
   onResultsMouseDown() {
     this.mouseDown = true
