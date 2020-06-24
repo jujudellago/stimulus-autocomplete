@@ -49,6 +49,8 @@ the contents of the input field. The server must answer with an html fragment:
 If the controller has a `hidden` target, that field will be updated with the value
 of the selected option. Otherwise, the search text field will be updated.
 
+If the result is an `<a>` tag, it will be "clicked" when the item is selected. Similarly, if the result is a `<form>` tag, it will be submitted when the item is selected.
+
 ## Using with an external API or a JSON API
 
 If you do not control the API response to format the data into the required format,

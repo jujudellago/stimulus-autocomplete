@@ -119,6 +119,12 @@ export default class extends Controller {
       return
     }
 
+    if (selected instanceof HTMLFormElement) {
+      selected.submit()
+      this.resultsTarget.hidden = true
+      return
+    }
+
     const textValue = selected.textContent.trim()
     const value = selected.getAttribute('data-autocomplete-value') || textValue
 
