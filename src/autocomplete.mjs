@@ -147,7 +147,7 @@ export default class extends Controller {
   }
 
   onSelect(selected, textValue, value) {
-    this.inputTarget.value = selected.textContent.trim()
+    this.inputTarget.value = selected.getAttribute('data-autocomplete-content') || selected.textContent.trim()
   }
 
   onResultsClick(event) {

@@ -99,6 +99,12 @@ export default class extends Autocomplete {
 }
 ```
 
+Alternatively, if you do not wish to subclass the Autocomplete controller, you can use the `data-autocomplete-content` value on the result. For example
+
+```html
+<li role="option" data-autocomplete-value="1" data-autocomplete-content="Tweet Tweet">Blackbird</li>
+```
+
 ## Events
 
 * `autocomplete.change` fires when the users selects a new value from the autocomplete
