@@ -6,6 +6,7 @@ export default class extends Controller {
   static targets = [ 'input', 'hidden', 'results' ]
 
   connect() {
+    this.previousSearch = null
     this.resultsTarget.hidden = true
 
     this.inputTarget.setAttribute('autocomplete', 'off')
@@ -148,6 +149,7 @@ export default class extends Controller {
 
   onSelect(selected, textValue, value) {
     this.inputTarget.value = selected.getAttribute('data-autocomplete-content') || selected.textContent.trim()
+    this.previousSearch = this.inputTarget.value
   }
 
   onResultsClick(event) {
@@ -187,7 +189,7 @@ export default class extends Controller {
 
   fetchResults() {
     const query = this.inputTarget.value.trim()
-    if (!query || query.length < this.minLength) {
+    if (!query || query.length < this.minLength || query === this.previousSearch) {
       this.hideAndRemoveOptions()
       return
     }
