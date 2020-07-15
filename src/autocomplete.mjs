@@ -103,11 +103,13 @@ export default class extends Controller {
   }
 
   onInputFocus() {
+    this.element.dispatchEvent(new CustomEvent('autocomplete.focus'))
     this.fetchResults()
   }
 
   onInputBlur() {
     if (this.mouseDown) return
+    this.element.dispatchEvent(new CustomEvent('autocomplete.blur'))
     this.resultsTarget.hidden = true
   }
 

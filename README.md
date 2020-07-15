@@ -110,6 +110,8 @@ Alternatively, if you do not wish to subclass the Autocomplete controller, you c
 * `autocomplete.change` fires when the users selects a new value from the autocomplete
 field. The event `detail` contains the `value` and `textValue` properties of the
 selected result.
+* `autocomplete.focus` fires when the input field is focused.
+* `autocomplete.blur` fires when the input field is blurred.
 * `loadstart` fires before the autocomplete fetches the results from the server.
 * `load` fires when results have been successfully loaded.
 * `error` fires when there's an error fetching the results.
