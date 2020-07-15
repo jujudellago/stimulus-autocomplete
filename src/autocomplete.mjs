@@ -17,6 +17,7 @@ export default class extends Controller {
     this.onInputChange = debounce(this.onInputChange.bind(this), 300)
     this.onResultsClick = this.onResultsClick.bind(this)
     this.onResultsMouseDown = this.onResultsMouseDown.bind(this)
+    this.onResultsMouseOver = this.onResultsMouseOver.bind(this)
     this.onInputBlur = this.onInputBlur.bind(this)
     this.onInputFocus = this.onInputFocus.bind(this)
     this.onKeydown = this.onKeydown.bind(this)
